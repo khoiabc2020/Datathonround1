@@ -2,6 +2,7 @@
 dataset/*.csv
 *.csv
 !sample_submission.csv
+!submission.csv
 
 # Python
 __pycache__/
