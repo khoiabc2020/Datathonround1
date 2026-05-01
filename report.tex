@@ -1,0 +1,184 @@
+% !TEX program = pdflatex
+\documentclass{article}
+\usepackage[final]{neurips_2025}
+\usepackage[utf8]{inputenc}
+\usepackage[T5]{fontenc}
+\usepackage{tgtermes}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{booktabs}
+\usepackage{amsfonts}
+\usepackage{nicefrac}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{amsmath}
+\linespread{1.07}
+\usepackage[compact,small]{titlesec}
+\titlelabel{\thetitle.\quad}
+\usepackage{enumitem}
+\setlength{\abovedisplayskip}{2pt}
+\setlength{\belowdisplayskip}{2pt}
+\setlength{\abovedisplayshortskip}{0pt}
+\setlength{\belowdisplayshortskip}{0pt}
+\setlength{\parindent}{1em}
+\setlength{\parskip}{0pt}
+
+
+\title{Phân Tích Hiệu Suất Sản Phẩm và Đề Xuất Chiến Lược Tăng Trưởng\\
+Cho Doanh Nghiệp Thương Mại Điện Tử Thời Trang Việt Nam (2012--2022)}
+
+
+\author{%
+  Lê Huy Khôi \quad Trương Đăng Dương \quad Dương Khánh Ly \\
+  Học viện Công nghệ Bưu chính Viễn thông (PTIT)\\
+  \texttt{\{khoilehuy318, truongdangduong666, khanhliy2562006\}@gmail.com}
+}
+
+
+\makeatletter
+\renewenvironment{abstract}
+{
+  \vskip 0.05in
+  \centerline{\large\bfseries Tóm tắt}
+  \vspace{0.3ex}
+  \begin{quote}
+}
+{
+  \end{quote}
+}
+\makeatother
+
+
+\raggedbottom
+\begin{document}
+
+\maketitle
+
+Báo cáo này trình bày kết quả phân tích toàn diện hệ sinh thái dữ liệu của doanh nghiệp thương mại điện tử thời trang Việt Nam trong giai đoạn 10 năm (2012--2022). Kết quả phân tích cho thấy Streetwear là phân khúc đóng góp doanh thu nổi bật nhất (80,09\%), đồng thời làm rõ rủi ro biên lợi nhuận âm tháng 8 (-5,6\%) và thiệt hại từ hoàn trả. Báo cáo cung cấp góc nhìn đa chiều về tính mùa vụ và chiến lược tối ưu hóa khuyến mãi, đồng thời trình bày hệ thống dự báo doanh thu dựa trên kiến trúc tổ hợp mô hình phân cấp đạt kết quả tối ưu \textbf{658.846 MAE} cho giai đoạn 2023--2024.
+
+% ============================================================
+\section{Trực quan dữ liệu}
+
+Để mang lại cái nhìn bao quát về toàn bộ 10 năm vận hành, Hình~\ref{fig:dashboard} thể hiện bảng điều khiển tổng hợp các chỉ số quan trọng nhất của doanh nghiệp.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.75\textwidth]{Datathon2026.png}
+  \caption{Bảng điều khiển trực quan hóa dữ liệu hiệu suất sản phẩm 10 năm (2012--2022)}
+  \label{fig:dashboard}
+\end{figure}
+
+% -------- 1.1 --------
+\subsection{Phân tích Mô tả: Thống kê tổng quan 10 năm}
+
+
+Dữ liệu 10 năm ghi nhận sự dịch chuyển rõ rệt trong thị hiếu thời trang. Doanh nghiệp đạt đỉnh 2,10 tỷ VND vào năm 2016, sau đó phục hồi +12,15\% YoY vào 2022. Streetwear đóng góp 80,09\% doanh thu, trong khi Outdoor sụt từ 51,2\% xuống dưới 23\% và GenZ tăng từ 3,6\% lên 8,2\% thị phần. Tệp khách hàng cốt lõi là nhóm 25--34 tuổi (29,8\%); kênh \texttt{organic\_search} dẫn đầu thu hút khách mới (29,9%), cho thấy tiềm năng đầu tư SEO còn rất lớn.
+
+
+% -------- 1.2 --------
+\subsection{Phân tích Chẩn đoán: Giả thuyết nhân quả và Điểm mù lợi nhuận}
+
+Phân tích 39.939 lượt hoàn trả chỉ ra ba nguyên nhân chủ quan cốt lõi gây thiệt hại 371 triệu VND:
+\begin{itemize}[leftmargin=*, nosep, topsep=1pt]
+    \item \textbf{Sai kích thước:} 13.967 trường hợp (Streetwear chiếm đa số) --- thiệt hại 176,69 triệu VND do thiếu chuẩn hóa bảng size cho 1.320 SKU mới.
+    \item \textbf{Sản phẩm lỗi \& Mô tả:} Chiếm ~15.000 ca, thiệt hại 194 triệu VND --- hệ quả của việc mở rộng danh mục vượt quá năng lực kiểm soát chất lượng.
+\end{itemize}
+Đáng chú ý, phân tích tại \texttt{Kaggle\_Task2.ipynb} chỉ ra \textbf{biên lợi nhuận tháng 8 âm (-5,6\%)} do lạm dụng chiết khấu sâu để xả hàng. Ngược lại, danh mục \textbf{Casual} sở hữu biên lợi nhuận cao nhất (28,5\%) dù volume thấp, cho thấy một "Cash Cow" tiềm năng chưa được khai thác đúng mức.
+
+% -------- 1.3 --------
+\subsection{Phân tích Dự báo: Tính mùa vụ và xu hướng tồn kho}
+
+Phân tích dữ liệu bán hàng ngày xác nhận biến động mùa vụ rõ rệt: đỉnh doanh thu Quý 2 (Tháng 6/2018 đạt \textbf{271,67 triệu VND}) và mùa Thu Đông cuối năm (Casual đạt 68,3\% thị phần). Về tình trạng tồn kho, dữ liệu \texttt{inventory.csv} cho thấy tỷ lệ \texttt{stockout\_flag} ở mức báo động tại nhóm GenZ (\textbf{68,3\%}), phản ánh nhu cầu tăng trưởng nhanh hơn kế hoạch cung ứng. Ngược lại, Casual và Streetwear đối mặt với dư thừa tồn kho (>72,6\%), đòi hỏi một cơ chế điều phối hàng hóa linh hoạt hơn giữa các mùa.
+
+% -------- 1.4 --------
+\subsection{Phân tích Đề xuất: Quản trị Chiến lược \& Tối ưu hóa Khuyến mãi}
+
+Ứng dụng khung SWOT vào các phát hiện dữ liệu, chúng tôi đề xuất 3 nhóm hành động:
+
+\begin{enumerate}[leftmargin=*, noitemsep, topsep=2pt]
+    \item \textbf{S-O --- Chiếm lĩnh tệp khách trẻ:} Kích hoạt \texttt{reorder\_flag} sớm 45--60 ngày cho nhóm GenZ để khắc phục tỷ lệ stockout 68,3\% và nắm bắt đà tăng trưởng thị phần từ 3,6\% lên 8,2\%.
+    \item \textbf{W-T --- Khắc phục rủi ro vận hành:} Triển khai \textit{Size Recommendation} chi tiết cho 1.320 mã hàng Streetwear nhằm bảo vệ 371 triệu VND thất thoát do hoàn trả "Wrong Size".
+    \item \textbf{S-T --- Tái cấu trúc Khuyến mãi \& Lợi nhuận:} Chuyển dịch toàn bộ sang cơ chế \textbf{Threshold-based promotion} để cứu vãn 31,5\% doanh thu bị bào mòn bởi các khuyến mãi hiệu quả thấp. Đồng thời, tăng tỷ trọng đầu tư vào dòng \textbf{Casual (margin 28,5\%)} để cân bằng lại chi phí vận hành cao của Streetwear.
+\end{enumerate}
+
+% ============================================================
+\section{Phương pháp tiếp cận, Pipeline Mô hình và Kết quả Thực nghiệm}
+
+Giải quyết bài toán dự báo dòng tiền với biến động mùa vụ rõ rệt (đặc biệt là Quý 3 do Urban Blowout) và sự thay đổi phân phối (\textit{Regime Drift}) từ 2020, chúng tôi thiết kế một hệ thống dự báo dựa trên kiến trúc tổ hợp mô hình phân cấp tuân thủ tuyệt đối nguyên tắc không rò rỉ dữ liệu.
+
+% -------- 2.1 --------
+\subsection{Kỹ thuật Đặc trưng (Feature Engineering)}
+
+Toàn bộ đặc trưng được xây dựng tĩnh dựa trên trục thời gian, đảm bảo khả năng dự báo dài hạn (18 tháng) mà không phụ thuộc vào dữ liệu trễ $t-1$:
+\begin{itemize}[leftmargin=*, noitemsep, topsep=2pt]
+    \item Đặc trưng Lịch sử và Lượng giác: Fourier ($k=1..5$) và chỉ báo vị trí tháng (SOM, EOM).
+    \item Đặc trưng Văn hóa: Chuyển đổi lịch Dương sang Âm (\texttt{tet\_days\_diff}) để bắt chu kỳ mua sắm Tết.
+    \item Độ trễ và Thống kê trích xuất: Log-transform doanh thu/COGS và sử dụng độ trễ tĩnh 365, 730, 1095 ngày.
+\end{itemize}
+
+% -------- 2.2 --------
+\subsection{Thiết lập Tham số và Kiến trúc Tổ hợp mô hình phân cấp}
+
+Hệ thống áp dụng cơ chế Binary Sample Weighting: tập trung trọng số $1.0$ vào giai đoạn ổn định 2014--2018. Kiến trúc tổ hợp tổng hợp từ 4 nhóm mô hình:
+\begin{enumerate}[leftmargin=*, nosep, topsep=1pt]
+    \item \textbf{LightGBM Q-Specialist} (trọng số lớn nhất): 8 mô hình chuyên gia theo quý với Huber Loss.
+    \item \textbf{Prophet}: Huấn luyện trên tập dữ liệu hậu 2020 (\textit{Regime Drift aware}).
+    \item \textbf{CatBoost \& Ridge Regression}: Đóng vai trò lớp bảo hộ và duy trì đường xu hướng vĩ mô.
+\end{enumerate}
+
+Đầu ra cuối cùng $\hat{y}_{final} = \text{Ensemble}(W_{opt})$ được tối ưu hóa thực nghiệm để khớp với mặt bằng dòng tiền dự kiến 2023--2024.
+
+% -------- 2.3 --------
+\subsection{Đánh giá Mô hình và Khả năng Giải thích (Explainability)}
+
+\begin{table}[htbp]
+  \centering
+  \small
+  \caption{Kết quả so sánh mô hình trên tập validation nội bộ}
+  \vspace{-5pt}
+  \label{tab:model_results}
+  \begin{tabular}{lrrr}
+    \toprule
+    \textbf{Mô hình} & \textbf{MAE} & \textbf{RMSE} & \textbf{$R^2$} \\
+    \midrule
+    Baseline Seasonal & 775{,}120 & 1{,}240{,}500 & 0{,}785 \\
+    LightGBM Q-Specialist & 685{,}430 & 1{,}105{,}300 & 0{,}824 \\
+    Ensemble Final & \textbf{658{,}846} & \textbf{980{,}150} & \textbf{0{,}865} \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+Phân tích SHAP khẳng định mô hình bám sát các mỏ neo mùa vụ bền vững (Lịch sử doanh thu cùng kỳ). Đặc biệt, mô hình nhận diện tốt sự dịch chuyển phân phối (\textit{Regime Drift}) thông qua các biến đặc trưng thời gian, đảm bảo mọi dự báo đều có thể giải thích được dưới góc độ vận hành.
+
+\section{Kết luận và Hướng phát triển}
+
+Kết quả thực nghiệm cho thấy phương pháp tiếp cận đa chiều mang lại hiệu quả tốt. Mô hình không chỉ là công cụ dự báo dòng tiền chính xác mà còn là cơ sở để doanh nghiệp tối ưu hóa kế hoạch nhập hàng, giảm thiểu rủi ro tồn kho và tối ưu hóa biên lợi nhuận thông qua việc kiểm soát khuyến mãi chặt chẽ hơn.
+
+\section{Mã nguồn và Dữ liệu}
+\vspace{-5pt}
+\begin{center}
+  \small \url{https://github.com/khoiabc2020/Datathonround1}
+\end{center}
+\vspace{-5pt}
+
+\appendix
+\section{Phụ lục: Chú giải Thuật ngữ}
+
+\begin{table}[H]
+\centering
+\footnotesize
+\begin{tabular}{ll}
+\toprule
+\textbf{Thuật ngữ} & \textbf{Ý nghĩa kinh doanh / Kỹ thuật} \\
+\midrule
+$cr$ / $cc$ & Hệ số hiệu chỉnh Doanh thu và Chi phí theo từng Quý. \\
+Regime Drift & Sự thay đổi bản chất dữ liệu (ví dụ: hành vi mua sắm hậu đại dịch). \\
+Threshold-based & Khuyến mãi chỉ kích hoạt khi giá trị đơn hàng đạt ngưỡng tối thiểu. \\
+SKU / YoY & Stock Keeping Unit / Year-over-Year (So sánh cùng kỳ năm trước). \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\end{document}
